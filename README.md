@@ -10,7 +10,7 @@ I consciously decided not to approach the problem with an adjency list or matrix
 
 Instantiate the Graph class.
 
-```c++
+```cpp - C++
 Graph graph;
 ```
 
