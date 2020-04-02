@@ -117,7 +117,7 @@ void Graph::DijkstraSolution(string start, string end)
     Step 2: Calculate the distance between the current node and its neighbors
     Step 3: Put the current node in the array of visited nodes
     Step 4: If the end node is marked as visited, end the algorithm
-    Step 5: Mark the neighbor node closest to the current node as the new current node and go back to Step 2
+    Step 5: Mark the lowest distance unvisited node as the new current node and go back to Step 2
 
     */
 
@@ -158,12 +158,6 @@ void Graph::DijkstraSolution(string start, string end)
                         neighborNode->distanceFromStart = currentNode->distanceFromStart + neighborDistance;
                         neighborNode->pathOrigin = currentNode;
                     }
-
-                    if (shortestDistanceFromStart == -1 or neighborNode->distanceFromStart < shortestDistanceFromStart)
-                    {
-                        closestNode = neighborNode;
-                        shortestDistanceFromStart = neighborNode->distanceFromStart;
-                    }
                 }
             }
 
@@ -177,7 +171,18 @@ void Graph::DijkstraSolution(string start, string end)
             }
 
             // Step 5
-            currentNode = closestNode;
+            int closestDistanceFromStart = -1;
+            for (list<Node>::iterator iter = this->nodeList.begin(), end = this->nodeList.end(); iter != end; iter++)
+            {
+                if (!this->Contains(visitedNodes, &(*iter)) && iter->distanceFromStart != -1)
+                {
+                    if (closestDistanceFromStart == -1 || iter->distanceFromStart < closestDistanceFromStart)
+                    {
+                        currentNode = &(*iter);
+                        closestDistanceFromStart = iter->distanceFromStart;
+                    }
+                }
+            }
         }
     }
 
